@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FundFlow - Crowdfunding Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const HeroSection = () => (
+        <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <h1 className="text-5xl font-bold mb-4">FundFlow</h1>
+            <p className="text-lg mb-6">
+              Power your ideas with community support. FundFlow is the
+              next-gen crowdfunding platform for creators & dreamers.
+            </p>
+            <button className="px-6 py-3 bg-white text-purple-700 rounded-xl shadow-lg hover:bg-gray-200 transition">
+              Start a Campaign
+            </button>
+          </div>
+        </section>
+      );
+
+      const FeaturedProducts = () => (
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {["Smart Watch", "Eco Bottle", "Gaming Chair"].map((product, i) => (
+                <div
+                  key={i}
+                  className="bg-gray-50 rounded-2xl shadow-md p-4 hover:shadow-xl transition"
+                >
+                  <img
+                    src={`https://source.unsplash.com/400x300/?${product}`}
+                    alt={product}
+                    className="rounded-xl mb-4"
+                  />
+                  <h3 className="font-semibold text-lg">{product}</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Support this amazing idea.
+                  </p>
+                  <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
+                    Back Project
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      const BrowseCategories = () => (
+        <section className="py-12 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold mb-6">Browse Categories</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+              {[
+                "Tech",
+                "Art",
+                "Music",
+                "Games",
+                "Fashion",
+                "Film",
+                "Food",
+                "Sports",
+              ].map((cat, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition cursor-pointer"
+                >
+                  <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                    {cat[0]}
+                  </div>
+                  <p className="font-medium">{cat}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      const TopCreators = () => (
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold mb-6">Top Creators</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+              {["Aarav", "Maya", "Rohan", "Ishita"].map((name, i) => (
+                <div
+                  key={i}
+                  className="bg-gray-50 rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition"
+                >
+                  <img
+                    src={`https://i.pravatar.cc/150?img=${i + 10}`}
+                    alt={name}
+                    className="w-20 h-20 mx-auto rounded-full mb-4"
+                  />
+                  <h3 className="font-semibold text-lg">{name}</h3>
+                  <p className="text-sm text-gray-600">Creator</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      const Footer = () => (
+        <footer className="bg-gray-900 text-gray-300 py-8">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2025 FundFlow. All rights reserved.</p>
+          </div>
+        </footer>
+      );
+
+      const App = () => (
+        <div>
+          <HeroSection />
+          <FeaturedProducts />
+          <BrowseCategories />
+          <TopCreators />
+          <Footer />
+        </div>
+      );
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

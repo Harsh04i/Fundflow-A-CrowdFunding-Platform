@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+    <style>
+        /* (Your CSS is here and remains UNCHANGED) */
+        :root {
+            --color-bg: #121212;
+            --color-card-bg: #1e1e1e;
+            --color-text: #e0e0e0;
+            --color-primary: #007bff;
+            --color-primary-hover: #0056b3;
+            --color-border: #333333;
+            --color-link: #66b3ff;
+            --color-link-hover: #ffffff;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-card {
+            background-color: var(--color-card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--color-border);
+        }
+
+        .form-card h2 {
+            color: var(--color-text);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--color-text);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--color-link);
+            text-decoration: none;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .forgot-link:hover {
+            color: var(--color-link-hover);
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--color-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .primary-btn:active {
+            transform: scale(0.99);
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+        }
+
+        .switch-link a {
+            color: var(--color-link);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-link a:hover {
+            color: var(--color-link-hover);
+            text-decoration: underline;
+        }
+
+        /* Styling for the status/error message */
+        #status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+        .success {
+            background-color: #28a74533; /* Green background with opacity */
+            color: #28a745;
+        }
+        .error {
+            background-color: #dc354533; /* Red background with opacity */
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="form-card" id="login-form">
+            <h2>Welcome Back</h2>
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <a href="#" class="forgot-link">Forgot Password?</a>
+            </div>
+            <button type="submit" class="primary-btn">Log In</button>
+            
+            <div id="status-message"></div>
+
+            <p class="switch-link">
+                Don't have an account? <a href="signup.html">Sign Up</a> </p>
+        </form>
+    </div>
+
+    <script>
+        // Get the form element and message container
+        const loginForm = document.getElementById('login-form');
+        const statusMessage = document.getElementById('status-message');
+
+        // Function to display status message
+        function showMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = ''; // Clear previous classes
+            statusMessage.classList.add(type);
+            statusMessage.style.display = 'block';
+        }
+
+        // --- Event Listener for Form Submission ---
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // 🛑 STOP the browser's default submission (which would cause a refresh)
+
+            // 1. Collect form data
+            const formData = {
+                // Get values by the 'name' attribute of the input fields
+                email: loginForm.email.value,
+                password: loginForm.password.value,
+            };
+            
+            statusMessage.style.display = 'none'; // Hide previous message
+
+            try {
+                // 2. Send data to the Express backend
+                const response = await fetch('/api/login', {
+                    method: 'POST', // Must be POST
+                    headers: { 
+                        'Content-Type': 'application/json' // Tell the server the body is JSON
+                    },
+                    body: JSON.stringify(formData) // Convert JavaScript object to JSON string
+                });
+
+                // 3. Get the JSON result from the server
+                const result = await response.json();
+
+                if (response.ok) {
+                    // HTTP status 200 (Success)
+                    showMessage(result.message, 'success');
+                    // 🔑 Redirect to authenticated page after successful login
+                    // Assuming you have an 'index_authenticated.html' or similar
+                    setTimeout(() => {
+                        window.location.href = 'index_authenticated.html'; 
+                    }, 1000); 
+
+                } else {
+                    // HTTP status 400 or 500 (Error)
+                    showMessage(result.message || 'Login failed.', 'error');
+                }
+
+            } catch (error) {
+                // Network error (e.g., server is down)
+                showMessage('Network error: Could not connect to the server.', 'error');
+                console.error('Fetch error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

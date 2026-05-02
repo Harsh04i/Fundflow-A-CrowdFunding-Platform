@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | FundFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom class for dropdown show/hide logic */
+        .dropdown-menu-hidden {
+            display: none;
+        }
+        .tab-active {
+            border-bottom: 2px solid #4f46e5; /* indigo-600 */
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index_authenticated.html" class="flex-shrink-0 flex items-center">
+                        <i data-feather="package" class="h-8 w-8 text-indigo-600"></i>
+                        <span class="ml-2 text-xl font-bold text-gray-900">FundFlow</span>
+                    </a>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="index_authenticated.html" class="border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
+                        <a href="discover.html" class="border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Discover</a>
+                        <a href="start.html" class="border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Start Your Project</a>
+                        <a href="about.html" class="border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">About</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center relative">
+                    <button id="user-menu-button" type="button" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-expanded="false" aria-haspopup="true">
+                        <span class="sr-only">Open user menu</span>
+                        <div class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
+                            JD
+                        </div>
+                    </button>
+                    
+                    <div id="user-menu-dropdown" class="dropdown-menu-hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                        <div class="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+                            Signed in as Harsh Mehta </div>
+                        <a href="myprofile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                            <i data-feather="user" class="h-4 w-4 inline mr-2 align-text-bottom"></i> My Profile
+                        </a>
+                        <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                            <i data-feather="log-out" class="h-4 w-4 inline mr-2 align-text-bottom"></i> Sign Out
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none" aria-expanded="false">
+                        <i data-feather="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl" data-aos="fade-down">
+            Account Overview
+        </h1>
+        
+        <div class="mt-8 bg-white shadow-xl rounded-xl overflow-hidden" data-aos="fade-up">
+            <div class="bg-indigo-600 p-6 flex items-center">
+                <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-3xl font-bold text-indigo-600 shadow-md">
+                    HM
+                </div>
+                <div class="ml-4">
+                    <p class="text-xl font-semibold text-white">Harsh Mehta</p>
+                    <p class="text-indigo-200">harsh@somaiya.edu</p>
+                </div>
+                <button class="ml-auto flex items-center text-white bg-indigo-500 hover:bg-indigo-700 px-4 py-2 rounded-lg text-sm font-medium transition duration-150">
+                    <i data-feather="settings" class="h-4 w-4 mr-1"></i> Edit Profile
+                </button>
+            </div>
+            
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
+                    <button id="tab-details-btn" class="py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent transition duration-150 ease-in-out tab-active">
+                        Basic Details
+                    </button>
+                    <button id="tab-contributions-btn" class="py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent transition duration-150 ease-in-out">
+                        Your Contributions
+                    </button>
+                    <button id="tab-projects-btn" class="py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 border-transparent transition duration-150 ease-in-out">
+                        My Projects (0)
+                    </button>
+                </nav>
+            </div>
+
+            <div class="p-8">
+                <div id="content-details" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border-b pb-4">
+                            <p class="text-sm font-medium text-gray-500">Full Name</p>
+                            <p class="mt-1 text-lg font-semibold text-gray-900">Harsh Mehta</p>
+                        </div>
+                        <div class="border-b pb-4">
+                            <p class="text-sm font-medium text-gray-500">Email Address</p>
+                            <p class="mt-1 text-lg font-semibold text-gray-900">harsh@somaiya,edu</p>
+                        </div>
+                        <div class="border-b pb-4">
+                            <p class="text-sm font-medium text-gray-500">Account Type</p>
+                            <p class="mt-1 text-lg font-semibold text-gray-900">Backer / Creator</p>
+                        </div>
+                        <div class="border-b pb-4">
+                            <p class="text-sm font-medium text-gray-500">Location</p>
+                            <p class="mt-1 text-lg font-semibold text-gray-900">Mumbai, INDIA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-contributions" class="space-y-4 hidden">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Backed Projects (3)</h3>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 bg-indigo-100 rounded-md flex items-center justify-center">
+                                <i data-feather="cpu" class="h-6 w-6 text-indigo-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-base font-semibold text-gray-900">Smart Home Hub Pro</p>
+                                <p class="text-sm text-gray-500">Pledged: <span class="font-medium text-indigo-600">₹2,500</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-green-600">Status: Funded (85%)</p>
+                            <a href="#" class="text-sm text-indigo-600 hover:underline">View Project</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 bg-green-100 rounded-md flex items-center justify-center">
+                                <i data-feather="heart" class="h-6 w-6 text-green-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-base font-semibold text-gray-900">AI Posture Corrector</p>
+                                <p class="text-sm text-gray-500">Pledged: <span class="font-medium text-indigo-600">₹1,200</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-red-600">Status: In Progress (51%)</p>
+                            <a href="#" class="text-sm text-indigo-600 hover:underline">View Project</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                        <div class="flex items-center">
+                            <div class="h-12 w-12 bg-purple-100 rounded-md flex items-center justify-center">
+                                <i data-feather="camera" class="h-6 w-6 text-purple-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-base font-semibold text-gray-900">Modular Lens System</p>
+                                <p class="text-sm text-gray-500">Pledged: <span class="font-medium text-indigo-600">₹5,000</span> (Highest Tier)</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-gray-600">Status: Delivery Pending</p>
+                            <a href="#" class="text-sm text-indigo-600 hover:underline">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-projects" class="space-y-4 hidden">
+                    <p class="text-gray-500">You haven't launched any projects yet. Ready to start?</p>
+                    <a href="start.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                        <i data-feather="plus" class="h-4 w-4 mr-2"></i> Launch New Project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 mt-12">
+        <div class="max-w-7xl mx-auto py-12 px-4 text-center text-gray-400">
+            &copy; 2025 FundFlow.
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS and Feather Icons
+        AOS.init({ duration: 800, once: true });
+        feather.replace();
+
+        // --- Dropdown Logic (Reused from previous step) ---
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenuDropdown = document.getElementById('user-menu-dropdown');
+        userMenuButton.addEventListener('click', () => {
+            userMenuDropdown.classList.toggle('dropdown-menu-hidden'); 
+            const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true' || false;
+            userMenuButton.setAttribute('aria-expanded', !isExpanded);
+        });
+        document.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenuDropdown.contains(event.target)) {
+                userMenuDropdown.classList.add('dropdown-menu-hidden');
+                userMenuButton.setAttribute('aria-expanded', false);
+            }
+        });
+
+        // --- Tab Switching Logic ---
+        const tabButtons = {
+            details: document.getElementById('tab-details-btn'),
+            contributions: document.getElementById('tab-contributions-btn'),
+            projects: document.getElementById('tab-projects-btn')
+        };
+        const tabContents = {
+            details: document.getElementById('content-details'),
+            contributions: document.getElementById('content-contributions'),
+            projects: document.getElementById('content-projects')
+        };
+
+        function switchTab(activeTab) {
+            // Deactivate all buttons and hide all content
+            Object.values(tabButtons).forEach(btn => btn.classList.remove('tab-active'));
+            Object.values(tabContents).forEach(content => content.classList.add('hidden'));
+
+            // Activate the selected button and show the selected content
+            tabButtons[activeTab].classList.add('tab-active');
+            tabContents[activeTab].classList.remove('hidden');
+        }
+
+        // Add event listeners to buttons
+        tabButtons.details.addEventListener('click', () => switchTab('details'));
+        tabButtons.contributions.addEventListener('click', () => switchTab('contributions'));
+        tabButtons.projects.addEventListener('click', () => switchTab('projects'));
+
+        // Ensure initial tab is correct (Basic Details is active by default in the HTML)
+        switchTab('details'); 
+    </script>
+</body>
+</html>

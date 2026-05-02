@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start a Project | FundFlow</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function App() {
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Header />
+                    <ProjectCreation />
+                    <Footer />
+                </div>
+            );
+        }
+
+        function Header() {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            return (
+                <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
+                    <div className="container mx-auto px-4">
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center">
+                                <a href="/" className="flex items-center">
+                                    <i data-feather="package" className="text-indigo-600 mr-2"></i>
+                                    <span className="text-2xl font-bold text-indigo-600">FundFlow</span>
+                                </a>
+                            </div>
+                            
+                            <div className="hidden md:flex space-x-8">
+                                <a href="/" className="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+                                <a href="/discover" className="text-gray-700 hover:text-indigo-600 font-medium">Discover</a>
+                                <a href="/start" className="text-indigo-600 font-medium">Start a Project</a>
+                                <a href="/about" className="text-gray-700 hover:text-indigo-600 font-medium">About</a>
+                            </div>
+                            
+                            <div className="hidden md:flex items-center space-x-4">
+                                <button className="px-4 py-2 text-gray-700 hover:text-indigo-600 font-medium">
+                                    <i data-feather="search" className="mr-1"></i> Search
+                                </button>
+                                <a href="/auth.html" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                                    <i data-feather="user" className="mr-1"></i> Sign In
+                                </a>
+                            </div>
+                            
+                            <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                                <i data-feather={isMenuOpen ? "x" : "menu"}></i>
+                            </button>
+                        </div>
+                        
+                        {isMenuOpen && (
+                            <div className="md:hidden mt-4 pb-4">
+                                <div className="flex flex-col space-y-3">
+                                    <a href="/" className="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+                                    <a href="/discover" className="text-gray-700 hover:text-indigo-600 font-medium">Discover</a>
+                                    <a href="/start" className="text-indigo-600 font-medium">Start a Project</a>
+                                    <a href="/about" className="text-gray-700 hover:text-indigo-600 font-medium">About</a>
+                                    <div className="pt-2 border-t border-gray-200">
+                                        <button className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                                            Sign In
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </header>
+            );
+        }
+
+        function ProjectCreation() {
+            const [step, setStep] = useState(1);
+            const [projectData, setProjectData] = useState({
+                title: "",
+                category: "",
+                description: "",
+                goalAmount: "",
+                duration: 30,
+                rewards: [],
+                story: "",
+                risks: "",
+                image: ""
+            });
+
+            const categories = [
+                "Technology",
+                "Design",
+                "Fashion",
+                "Food",
+                "Home",
+                "Health",
+                "Gadgets",
+                "Sustainability"
+            ];
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setProjectData({
+                    ...projectData,
+                    [name]: value
+                });
+            };
+
+            const handleRewardChange = (index, field, value) => {
+                const updatedRewards = [...projectData.rewards];
+                updatedRewards[index][field] = value;
+                setProjectData({
+                    ...projectData,
+                    rewards: updatedRewards
+                });
+            };
+
+            const addReward = () => {
+                setProjectData({
+                    ...projectData,
+                    rewards: [...projectData.rewards, {
+                        title: "",
+                        description: "",
+                        amount: "",
+                        deliveryDate: "",
+                        backers: 0
+                    }]
+                });
+            };
+
+            const removeReward = (index) => {
+                const updatedRewards = [...projectData.rewards];
+                updatedRewards.splice(index, 1);
+                setProjectData({
+                    ...projectData,
+                    rewards: updatedRewards
+                });
+            };
+
+            const handleImageUpload = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setProjectData({
+                            ...projectData,
+                            image: reader.result
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            const nextStep = () => {
+                setStep(step + 1);
+            };
+
+            const prevStep = () => {
+                setStep(step - 1);
+            };
+
+            const submitProject = () => {
+                // In a real app, you would send this data to your backend
+                console.log("Project submitted:", projectData);
+                alert("Project submitted successfully!");
+            };
+
+            return (
+                <section className="pt-32 pb-16 px-4">
+                    <div className="container mx-auto max-w-4xl">
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2">Start Your Project</h1>
+                            <p className="text-gray-600 mb-6">Follow these steps to create your crowdfunding campaign</p>
+                            
+                            <div className="mb-8">
+                                <div className="flex justify-between">
+                                    {[1, 2, 3, 4].map((stepNumber) => (
+                                        <div key={stepNumber} className="flex flex-col items-center">
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step >= stepNumber ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                                {stepNumber}
+                                            </div>
+                                            <span className="text-xs mt-2 text-gray-600">
+                                                {stepNumber === 1 && "Basics"}
+                                                {stepNumber === 2 && "Funding"}
+                                                {stepNumber === 3 && "Rewards"}
+                                                {stepNumber === 4 && "Story"}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="relative mt-4">
+                                    <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2"></div>
+                                    <div 
+                                        className="absolute top-1/2 left-0 h-1 bg-indigo-600 -translate-y-1/2 transition-all duration-300" 
+                                        style={{ width: `${(step - 1) * 33.33}%` }}
+                                    ></div>
+                                </div>
+                            </div>
+                            
+                            {step === 1 && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Project Title</label>
+                                        <input
+                                            type="text"
+                                            name="title"
+                                            value={projectData.title}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            placeholder="What's your product called?"
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Category</label>
+                                        <select
+                                            name="category"
+                                            value={projectData.category}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        >
+                                            <option value="">Select a category</option>
+                                            {categories.map(category => (
+                                                <option key={category} value={category}>{category}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Short Description</label>
+                                        <textarea
+                                            name="description"
+                                            value={projectData.description}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            rows="3"
+                                            placeholder="Describe your product in a few sentences"
+                                        ></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Project Image</label>
+                                        <div className="flex items-center space-x-4">
+                                            {projectData.image ? (
+                                                <img src={projectData.image} alt="Project" className="w-32 h-32 object-cover rounded-md" />
+                                            ) : (
+                                                <div className="w-32 h-32 bg-gray-100 rounded-md flex items-center justify-center">
+                                                    <i data-feather="image" className="text-gray-400"></i>
+                                                </div>
+                                            )}
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    id="projectImage"
+                                                    onChange={handleImageUpload}
+                                                    className="hidden"
+                                                    accept="image/*"
+                                                />
+                                                <label htmlFor="projectImage" className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 cursor-pointer transition">
+                                                    Choose Image
+                                                </label>
+                                                <p className="text-xs text-gray-500 mt-1">Recommended size: 1200x630px</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={nextStep}
+                                            disabled={!projectData.title || !projectData.category || !projectData.description}
+                                            className={`px-6 py-2 rounded-md font-medium ${!projectData.title || !projectData.category || !projectData.description ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {step === 2 && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Funding Goal (₹)</label>
+                                        <div className="relative">
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                                            <input
+                                                type="number"
+                                                name="goalAmount"
+                                                value={projectData.goalAmount}
+                                                onChange={handleInputChange}
+                                                className="w-full pl-8 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                placeholder="How much do you need to raise?"
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Campaign Duration (days)</label>
+                                        <input
+                                            type="range"
+                                            name="duration"
+                                            min="7"
+                                            max="60"
+                                            value={projectData.duration}
+                                            onChange={handleInputChange}
+                                            className="w-full"
+                                        />
+                                        <div className="flex justify-between mt-2">
+                                            <span>7 days</span>
+                                            <span className="font-medium">{projectData.duration} days</span>
+                                            <span>60 days</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="bg-gray-50 p-4 rounded-md">
+                                        <h3 className="font-medium text-gray-700 mb-2">Funding Tips</h3>
+                                        <ul className="text-sm text-gray-600 space-y-2">
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Set a realistic goal that covers your costs but is achievable</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>30-45 days is the sweet spot for campaign duration</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Projects that reach 30% of their goal in the first week are most likely to succeed</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={prevStep}
+                                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition"
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            onClick={nextStep}
+                                            disabled={!projectData.goalAmount}
+                                            className={`px-6 py-2 rounded-md font-medium ${!projectData.goalAmount ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {step === 3 && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <h3 className="text-lg font-medium text-gray-700 mb-4">Reward Tiers</h3>
+                                        <p className="text-sm text-gray-600 mb-4">Offer backers rewards for supporting your project. These could be early access to your product, exclusive versions, or other perks.</p>
+                                        
+                                        {projectData.rewards.length === 0 ? (
+                                            <div className="bg-gray-50 p-6 rounded-md text-center">
+                                                <i data-feather="gift" className="w-8 h-8 text-gray-400 mx-auto mb-3"></i>
+                                                <p className="text-gray-600">No rewards added yet</p>
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-4">
+                                                {projectData.rewards.map((reward, index) => (
+                                                    <div key={index} className="border border-gray-200 rounded-md p-4">
+                                                        <div className="flex justify-between items-start mb-3">
+                                                            <h4 className="font-medium">Reward #{index + 1}</h4>
+                                                            <button 
+                                                                onClick={() => removeReward(index)}
+                                                                className="text-red-500 hover:text-red-700"
+                                                            >
+                                                                <i data-feather="trash-2" className="w-4 h-4"></i>
+                                                            </button>
+                                                        </div>
+                                                        
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                            <div>
+                                                                <label className="block text-sm text-gray-600 mb-1">Title</label>
+                                                                <input
+                                                                    type="text"
+                                                                    value={reward.title}
+                                                                    onChange={(e) => handleRewardChange(index, 'title', e.target.value)}
+                                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                                                    placeholder="e.g. Early Bird Special"
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className="block text-sm text-gray-600 mb-1">Amount ($)</label>
+                                                                <input
+                                                                    type="number"
+                                                                    value={reward.amount}
+                                                                    onChange={(e) => handleRewardChange(index, 'amount', e.target.value)}
+                                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                                                    placeholder="e.g. 50"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div className="mt-3">
+                                                            <label className="block text-sm text-gray-600 mb-1">Description</label>
+                                                            <textarea
+                                                                value={reward.description}
+                                                                onChange={(e) => handleRewardChange(index, 'description', e.target.value)}
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                                                rows="2"
+                                                                placeholder="What will backers receive?"
+                                                            ></textarea>
+                                                        </div>
+                                                        
+                                                        <div className="mt-3">
+                                                            <label className="block text-sm text-gray-600 mb-1">Estimated Delivery</label>
+                                                            <input
+                                                                type="text"
+                                                                value={reward.deliveryDate}
+                                                                onChange={(e) => handleRewardChange(index, 'deliveryDate', e.target.value)}
+                                                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                                                placeholder="e.g. December 2023"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        
+                                        <button
+                                            onClick={addReward}
+                                            className="mt-4 px-4 py-2 border-2 border-dashed border-gray-300 text-gray-600 rounded-md w-full hover:border-indigo-500 hover:text-indigo-600 transition"
+                                        >
+                                            <i data-feather="plus" className="w-4 h-4 mr-1 inline"></i> Add Reward
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={prevStep}
+                                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition"
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            onClick={nextStep}
+                                            className="px-6 py-2 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 transition"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {step === 4 && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Your Story</label>
+                                        <textarea
+                                            name="story"
+                                            value={projectData.story}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            rows="6"
+                                            placeholder="Tell your backers about yourself, your team, and why you're passionate about this project. What inspired you? What challenges have you faced? What makes your product unique?"
+                                        ></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-gray-700 font-medium mb-2">Risks & Challenges</label>
+                                        <textarea
+                                            name="risks"
+                                            value={projectData.risks}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            rows="4"
+                                            placeholder="Be transparent about potential risks and challenges, and how you plan to overcome them."
+                                        ></textarea>
+                                    </div>
+                                    
+                                    <div className="bg-gray-50 p-4 rounded-md">
+                                        <h3 className="font-medium text-gray-700 mb-2">Storytelling Tips</h3>
+                                        <ul className="text-sm text-gray-600 space-y-2">
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Use a friendly, conversational tone</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Include images or videos to make your story more engaging</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Explain what you'll use the funds for</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <i data-feather="check-circle" className="text-green-500 mr-2 mt-0.5"></i>
+                                                <span>Show prototypes or progress you've made so far</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={prevStep}
+                                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition"
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            onClick={submitProject}
+                                            className="px-6 py-2 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 transition"
+                                        >
+                                            Submit Project
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function Footer() {
+            return (
+                <footer className="bg-gray-900 text-white py-12 px-4">
+                    <div className="container mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div>
+                                <div className="flex items-center mb-4">
+                                    <i data-feather="package" className="text-indigo-400 mr-2"></i>
+                                    <span className="text-2xl font-bold text-indigo-400">FundFlow</span>
+                                </div>
+                                <p className="text-gray-400 mb-4">Bringing innovative products to life through crowdfunding.</p>
+                                <div className="flex space-x-4">
+                                    <a href="#" className="text-gray-400 hover:text-white">
+                                        <i data-feather="facebook"></i>
+                                    </a>
+                                    <a href="#" className="text-gray-400 hover:text-white">
+                                        <i data-feather="twitter"></i>
+                                    </a>
+                                    <a href="#" className="text-gray-400 hover:text-white">
+                                        <i data-feather="instagram"></i>
+                                    </a>
+                                    <a href="#" className="text-gray-400 hover:text-white">
+                                        <i data-feather="linkedin"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 className="text-lg font-bold mb-4">For Creators</h3>
+                                <ul className="space-y-2">
+                                    <li><a href="#" className="text-gray-400 hover:text-white">How It Works</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Pricing</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Creator Handbook</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Success Stories</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 className="text-lg font-bold mb-4">For Backers</h3>
+                                <ul className="space-y-2">
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Discover Projects</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">How Backing Works</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Trust & Safety</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">FAQ</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 className="text-lg font-bold mb-4">Company</h3>
+                                <ul className="space-y-2">
+                                    <li><a href="#" className="text-gray-400 hover:text-white">About Us</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Careers</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Terms of Service</a></li>
+                                    <li><a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div className="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                            <p>© {new Date().getFullYear()} FundFlow. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+    
+    <script>AOS.init();</script>
+    <script>feather.replace();</script>
+</body>
+</html>
+
+

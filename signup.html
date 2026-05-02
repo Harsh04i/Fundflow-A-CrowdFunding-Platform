@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    
+    <style>
+        /* --- Variables --- */
+        :root {
+            --color-bg: #121212; /* Dark background */
+            --color-card-bg: #1e1e1e; /* Slightly lighter card */
+            --color-text: #e0e0e0; /* Light text */
+            --color-primary: #007bff; /* Vibrant accent color (blue) */
+            --color-primary-hover: #0056b3;
+            --color-border: #333333; /* Subtle border */
+            --color-link: #66b3ff; /* Link color */
+            --color-link-hover: #ffffff;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- Base Styling --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Container and Card --- */
+        .container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-card {
+            background-color: var(--color-card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px; /* Max width for a clean look */
+            border: 1px solid var(--color-border);
+        }
+
+        .form-card h2 {
+            color: var(--color-text);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        /* --- Input Groups --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--color-text);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+
+        /* --- Links and Buttons --- */
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--color-link);
+            text-decoration: none;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .forgot-link:hover {
+            color: var(--color-link-hover);
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--color-primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .primary-btn:active {
+            transform: scale(0.99);
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+        }
+
+        .switch-link a {
+            color: var(--color-link);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-link a:hover {
+            color: var(--color-link-hover);
+            text-decoration: underline;
+        }
+
+        /* --- Status Message Styling (New) --- */
+        #status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            display: none; /* Hidden by default */
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .success {
+            background-color: rgba(40, 167, 69, 0.2); /* Green background with opacity */
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+        .error {
+            background-color: rgba(220, 53, 69, 0.2); /* Red background with opacity */
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Added ID for JavaScript targeting -->
+        <form class="form-card" id="signup-form">
+            <h2>Join Our Community</h2>
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Minimum 8 characters" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <!-- IMPORTANT: Changed name to "confirm" to match the Flask backend's request.form["confirm"] -->
+                <input type="password" id="confirm-password" name="confirm" placeholder="Re-enter password" required>
+            </div>
+            <button type="submit" class="primary-btn">Create Account</button>
+            
+            <!-- Message container for signup status (New) -->
+            <div id="status-message"></div>
+
+            <p class="switch-link">
+                Already have an account? <a href="login.html">Log In</a> 
+            </p>
+        </form>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signup-form');
+        const statusMessage = document.getElementById('status-message');
+        const API_URL = '/signup'; 
+
+        /**
+         * Displays a status message to the user.
+         * @param {string} message The text to display.
+         * @param {'success'|'error'} type The type of message for styling.
+         */
+        function showMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = type; 
+            statusMessage.style.display = 'block';
+        }
+
+        // Add event listener for form submission
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop the browser's default submission
+
+            statusMessage.style.display = 'none'; // Clear previous message
+
+            const password = signupForm.password.value;
+            const confirmPassword = signupForm.confirm.value; 
+            
+            // Client-side password mismatch check
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match. Please check again.', 'error');
+                return;
+            }
+
+            // Prepare data as URL-encoded form data, as required by Flask's request.form
+            const formData = {
+                name: signupForm.name.value,
+                email: signupForm.email.value,
+                password: password,
+                confirm: confirmPassword, 
+            };
+            
+            const formBody = new URLSearchParams();
+            for (const key in formData) {
+                formBody.append(key, formData[key]);
+            }
+            
+            try {
+                // Send data to the Flask backend
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    // The browser automatically sets Content-Type for URLSearchParams
+                    body: formBody 
+                });
+
+                // Since Flask uses redirects on success/error, we check the final URL after fetch.
+                if (response.redirected) {
+                    if (response.url.includes('/login')) {
+                        // Success: Redirected to login means account was created.
+                        showMessage('Account created successfully! Redirecting to login...', 'success');
+                        setTimeout(() => {
+                            window.location.href = response.url;
+                        }, 1000);
+                    } else if (response.url.includes('/signup')) {
+                        // Failure: Redirected back to signup usually means an error (e.g., email exists, mismatch)
+                        // Note: We can't read the Flask flash message, so this is a best-effort message.
+                         showMessage('Signup failed. Email may already be registered or passwords mismatched.', 'error');
+                    }
+                } else {
+                    // This block handles cases where the Flask app might return JSON directly
+                    try {
+                        const result = await response.json();
+                         if (response.ok) {
+                            showMessage(result.message || 'Account created! Redirecting...', 'success');
+                            setTimeout(() => {
+                                window.location.href = 'login.html'; 
+                            }, 1000); 
+                        } else {
+                            showMessage(result.message || 'Signup failed. Please try again.', 'error');
+                        }
+                    } catch (e) {
+                        // If it wasn't a JSON response (like a raw HTML redirect)
+                        showMessage('An unexpected server response occurred.', 'error');
+                    }
+                }
+
+            } catch (error) {
+                // Network error 
+                showMessage('Network error: Could not connect to the server.', 'error');
+                console.error('Fetch error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
